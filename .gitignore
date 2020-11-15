@@ -1,1 +1,7 @@
 node_modules
+
+# merge file
+*.bak
+
+# data file
+products.json
