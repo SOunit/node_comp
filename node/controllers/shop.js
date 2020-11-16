@@ -28,3 +28,10 @@ exports.getIndex = (req, res, next) => {
     path: '/',
   });
 };
+
+exports.getCheckout = (req, res, next) => {
+  res.render('./shop/checkout', {
+    pageTitle: 'Checkout',
+    path: '/checkout',
+  });
+};
