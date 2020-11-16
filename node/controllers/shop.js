@@ -23,9 +23,12 @@ exports.getCart = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  res.render('./shop/index', {
-    pageTitle: 'Index',
-    path: '/',
+  Product.fetchAll((products) => {
+    res.render('./shop/index', {
+      pageTitle: 'Index',
+      prods: products,
+      path: '/',
+    });
   });
 };
 

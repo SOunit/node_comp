@@ -13,7 +13,6 @@ const getProductsFromFile = (cb) => {
     if (err) {
       cb([]);
     } else {
-      console.log('fileContent!!', fileContent);
       // this leads to error
       // fileContent is incomplete
       cb(JSON.parse(fileContent));
