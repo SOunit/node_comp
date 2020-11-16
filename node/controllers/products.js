@@ -1,30 +1,30 @@
-const products = [];
-
-exports.getAddProduct = (req, res, next) => {
-  // res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
-  res.render('add-product', {
-    pageTitle: 'Add Product',
-    path: '/admin/add-product',
-    formsCSS: true,
-    productCSS: true,
-    activeAddProduct: true,
-  });
-};
-
-exports.postAddProduct = (req, res, next) => {
-  products.push({ title: req.body.title });
-  res.redirect('/');
-};
+const Product = require('../models/product');
 
 exports.getProducts = (req, res, next) => {
   // res.sendFile(path.join(rootDir, 'views', 'shop.html'));
-  res.render('shop', {
-    pageTitle: 'test',
-    prods: products,
-    pageTitle: 'Shop',
+  const products = Product.fetchAll((products) => {
+    res.render('./shop/product-list', {
+      pageTitle: 'test',
+      prods: products,
+      pageTitle: 'Shop',
+      path: '/products',
+      hasProducts: products.length > 0,
+      activeShop: true,
+      productCSS: true,
+    });
+  });
+};
+
+exports.getCart = (req, res, next) => {
+  res.render('./shop/cart', {
+    pageTitle: 'Cart',
+    path: '/cart',
+  });
+};
+
+exports.getIndex = (req, res, next) => {
+  res.render('./shop/index', {
+    pageTitle: 'Index',
     path: '/',
-    hasProducts: products.length > 0,
-    activeShop: true,
-    productCSS: true,
   });
 };
