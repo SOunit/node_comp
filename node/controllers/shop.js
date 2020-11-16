@@ -2,7 +2,7 @@ const Product = require('../models/product');
 
 exports.getProducts = (req, res, next) => {
   // res.sendFile(path.join(rootDir, 'views', 'shop.html'));
-  const products = Product.fetchAll((products) => {
+  Product.fetchAll((products) => {
     res.render('./shop/product-list', {
       pageTitle: 'test',
       prods: products,

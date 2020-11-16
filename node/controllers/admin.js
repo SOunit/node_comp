@@ -13,12 +13,15 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.getAdminProducts = (req, res, next) => {
   // res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
-  res.render('admin/products', {
-    pageTitle: 'Products',
-    path: '/admin/products',
-    formsCSS: true,
-    productCSS: true,
-    activeAddProduct: true,
+  Product.fetchAll((products) => {
+    res.render('admin/products', {
+      pageTitle: 'Products',
+      prods: products,
+      path: '/admin/products',
+      formsCSS: true,
+      productCSS: true,
+      activeAddProduct: true,
+    });
   });
 };
 
