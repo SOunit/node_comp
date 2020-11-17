@@ -13,7 +13,6 @@ const getProductsFromFile = (cb) => {
     if (err) {
       cb([]);
     } else {
-      console.log('fileContent!!', fileContent);
       // this leads to error
       // fileContent is incomplete
       cb(JSON.parse(fileContent));
@@ -30,6 +29,7 @@ module.exports = class Product {
   }
 
   save() {
+    this.id = Math.random().toString();
     getProductsFromFile((products) => {
       products.push(this);
       fs.writeFile(p, JSON.stringify(products), (err) => {
@@ -42,5 +42,14 @@ module.exports = class Product {
 
   static fetchAll(cb) {
     getProductsFromFile(cb);
+  }
+
+  static findById(id, cb) {
+    getProductsFromFile((products) => {
+      const product = products.find((p) => {
+        return p.id === id;
+      });
+      cb(product);
+    });
   }
 };
