@@ -15,6 +15,7 @@ const getProductsFromFile = (cb) => {
     if (err) {
       cb([]);
     } else {
+      console.log('models/product.js', JSON.parse(fileContent));
       // this leads to error
       // fileContent is incomplete
       cb(JSON.parse(fileContent));
@@ -41,7 +42,7 @@ module.exports = class Product {
         const updatedProducts = [...products];
         updatedProducts[exsitingProductIndex] = this;
         fs.writeFile(p, JSON.stringify(updatedProducts), (err) => {
-          console.log(err);
+          console.log('product.js', err);
         });
       } else {
         // insert

@@ -1,6 +1,8 @@
 const Product = require('../models/product');
 const Cart = require('../models/cart');
 
+const TIME_TO_WAIT = 3000;
+
 exports.getAddProduct = (req, res, next) => {
   // res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
   res.render('admin/edit-product', {
@@ -62,7 +64,10 @@ exports.postEditProduct = (req, res, next) => {
     updatedDescription,
     updatedPrice
   ).save();
-  return res.redirect('/admin/products');
+
+  setTimeout(() => {
+    return res.redirect('/admin/products');
+  }, TIME_TO_WAIT);
 };
 
 exports.postAddProduct = (req, res, next) => {
@@ -72,11 +77,17 @@ exports.postAddProduct = (req, res, next) => {
   const price = +req.body.price;
   const product = new Product(null, title, imageUrl, description, price);
   product.save();
-  return res.redirect('/');
+
+  setTimeout(() => {
+    return res.redirect('/');
+  }, TIME_TO_WAIT);
 };
 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
   Product.deleteById(prodId);
-  res.redirect('/admin/products');
+
+  setTimeout(() => {
+    res.redirect('/admin/products');
+  }, TIME_TO_WAIT);
 };
