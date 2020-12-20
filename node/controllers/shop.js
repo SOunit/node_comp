@@ -71,13 +71,18 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll((products) => {
-    res.render('./shop/index', {
-      pageTitle: 'Index',
-      prods: products,
-      path: '/',
-    });
-  });
+  Product.fetchAll()
+    // [rows, fieldData] is new syntax
+    // which allocate 1st item to rows,
+    // 2nd item to fieldData
+    .then(([rows, fieldData]) => {
+      res.render('./shop/index', {
+        pageTitle: 'Index',
+        prods: rows,
+        path: '/',
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getCheckout = (req, res, next) => {
