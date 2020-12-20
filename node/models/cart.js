@@ -48,9 +48,13 @@ module.exports = class Cart {
 
       const updatedCart = { ...JSON.parse(fileContent) };
       const product = updatedCart.products.find((prod) => prod.id === id);
+
+      if (!product) {
+        return;
+      }
+
       // error if item is not found
       const productQty = product.qty;
-
       // current cart - target item = updated cart
       updatedCart.products = updatedCart.products.filter(
         (prod) => prod.id !== id

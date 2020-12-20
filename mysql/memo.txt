@@ -1,0 +1,9 @@
+# how to login in console
+## docker-compose up
+
+## exec bash
+docker exec -it node_comp_mysql_1 bash -p
+
+## enter user, password
+- mysql -u test -p
+- test
