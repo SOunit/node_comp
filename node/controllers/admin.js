@@ -17,16 +17,20 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.getAdminProducts = (req, res, next) => {
   // res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
-  Product.fetchAll((products) => {
-    res.render('admin/products', {
-      pageTitle: 'Products',
-      prods: products,
-      path: '/admin/products',
-      formsCSS: true,
-      productCSS: true,
-      activeAddProduct: true,
+  Product.findAll()
+    .then((products) => {
+      res.render('admin/products', {
+        pageTitle: 'Products',
+        prods: products,
+        path: '/admin/products',
+        formsCSS: true,
+        productCSS: true,
+        activeAddProduct: true,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  });
 };
 
 exports.getEditProduct = (req, res, next) => {
@@ -35,20 +39,24 @@ exports.getEditProduct = (req, res, next) => {
     res.redirect('/');
   }
   const prodId = req.params.productId;
-  Product.findById(prodId, (product) => {
-    if (!product) {
-      return res.redirect('/');
-    }
-    res.render('admin/edit-product', {
-      pageTitle: 'Edit Product',
-      path: '/admin/edit-product',
-      editing: editMode,
-      prod: product,
-      formsCSS: true,
-      productCSS: true,
-      activeAddProduct: true,
+  Product.findByPk(prodId)
+    .then((product) => {
+      if (!product) {
+        return res.redirect('/');
+      }
+      res.render('admin/edit-product', {
+        pageTitle: 'Edit Product',
+        path: '/admin/edit-product',
+        editing: editMode,
+        prod: product,
+        formsCSS: true,
+        productCSS: true,
+        activeAddProduct: true,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  });
 };
 
 exports.postEditProduct = (req, res, next) => {
@@ -57,17 +65,21 @@ exports.postEditProduct = (req, res, next) => {
   const updatedPrice = req.body.price;
   const updatedImageUrl = req.body.imageUrl;
   const updatedDescription = req.body.description;
-  new Product(
-    prodId,
-    updatedTitle,
-    updatedImageUrl,
-    updatedDescription,
-    updatedPrice
-  ).save();
-
-  setTimeout(() => {
-    return res.redirect('/admin/products');
-  }, TIME_TO_WAIT);
+  Product.findByPk(prodId)
+    .then((product) => {
+      product.title = updatedTitle;
+      product.price = updatedPrice;
+      product.description = updatedDescription;
+      product.imageUrl = updatedImageUrl;
+      return product.save();
+    })
+    .then((result) => {
+      console.log(result);
+      return res.redirect('/admin/products');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 exports.postAddProduct = (req, res, next) => {
@@ -83,6 +95,7 @@ exports.postAddProduct = (req, res, next) => {
   })
     .then((result) => {
       console.log(result);
+      res.redirect('/');
     })
     .catch((err) => {
       console.log(err);
