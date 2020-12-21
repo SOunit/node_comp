@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: mysql_host
--- 生成日時: 2020 年 12 月 20 日 09:11
+-- 生成日時: 2020 年 12 月 20 日 11:03
 -- サーバのバージョン： 8.0.22
 -- PHP のバージョン: 7.4.11
 
@@ -31,11 +31,20 @@ USE `node-complete`;
 
 CREATE TABLE `products` (
   `id` int NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` double NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `imageUrl` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `imageUrl` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- テーブルのデータのダンプ `products`
+--
+
+INSERT INTO `products` (`id`, `title`, `price`, `description`, `imageUrl`) VALUES
+(1, 'A Book!?', 20.99, 'This is a book!', 'https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png'),
+(2, 'aaa', 200, 'aaa', 'https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png'),
+(3, 'bbb', 200, 'bbb', 'https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png');
 
 --
 -- ダンプしたテーブルのインデックス
@@ -55,7 +64,7 @@ ALTER TABLE `products`
 -- テーブルの AUTO_INCREMENT `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

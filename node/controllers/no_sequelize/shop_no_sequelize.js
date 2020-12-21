@@ -4,14 +4,15 @@ const Cart = require('../models/cart');
 const TIME_TO_WAIT = 3000;
 
 exports.getProducts = (req, res, next) => {
-  Product.findAll()
-    .then((products) => {
+  // res.sendFile(path.join(rootDir, 'views', 'shop.html'));
+  Product.fetchAll()
+    .then(([rows, fieldData]) => {
       res.render('./shop/product-list', {
         pageTitle: 'test',
-        prods: products,
+        prods: rows,
         pageTitle: 'Shop',
         path: '/products',
-        hasProducts: products.length > 0,
+        hasProducts: rows.length > 0,
         activeShop: true,
         productCSS: true,
       });
@@ -78,17 +79,18 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.findAll()
-    .then((products) => {
+  Product.fetchAll()
+    // [rows, fieldData] is new syntax
+    // which allocate 1st item to rows,
+    // 2nd item to fieldData
+    .then(([rows, fieldData]) => {
       res.render('./shop/index', {
         pageTitle: 'Index',
-        prods: products,
+        prods: rows,
         path: '/',
       });
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => console.log(err));
 };
 
 exports.getCheckout = (req, res, next) => {
