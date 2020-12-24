@@ -18,6 +18,8 @@ const Product = require('./models/product');
 const User = require('./models/user');
 const Cart = require('./models/cart');
 const CartItem = require('./models/cart-item');
+const Order = require('./models/order');
+const OrderItem = require('./models/order-item');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -38,12 +40,22 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
+// tom.belongsTo(company) > tom has a foregin key
+// tom.hasOne(company) > company has a foregin key
+// product-user
 Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 User.hasMany(Product);
+// cart-user
 User.hasOne(Cart);
 Cart.belongsTo(User);
+// cart-product
 Cart.belongsToMany(Product, { through: CartItem });
 Product.belongsToMany(Cart, { through: CartItem });
+// order-user
+Order.belongsTo(User);
+User.hasMany(Order);
+// product-order
+Order.belongsToMany(Product, { through: OrderItem });
 
 sequelize
   // .sync({ force: true })
